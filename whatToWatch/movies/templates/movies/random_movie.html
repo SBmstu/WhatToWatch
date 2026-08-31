@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<title>What to watch today?</title>
+		<style>
+			body {
+				font-family: sans-serif;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				min-height: 100vh;
+				margin: 0;
+				background: #f4f4f4;
+			}
+			.card {
+				background: white;
+				border-radius: 15px;
+				padding: 20px;
+				max-width: 400px;
+				box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+				text-align: center;
+			}
+			.card img {
+				max-width: 100%;
+				border-radius: 10px;
+			}
+			.btn {
+				display: inline-block;
+				margin-top: 15px;
+				padding: 10px 20px;
+				background: #007bff;
+				color: white;
+				text-decoration: none;
+				border-radius: 5px;
+			}
+			.btn:hover {
+				background: #0056b3;
+			}
+			.error {
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="card">
+			{% if movie %}
+			<h2>{{ movie.nameRu }}</h2>
+			{% if movie.posterUrl %}
+			<img src="{{ movie.posterUrl }}" alt="Постер" />
+			{% else %}
+			<p>The poster is missing</p>
+			{% endif %}
+			<p><strong>Rating:</strong> {{ movie.ratingKinopoisk }}</p>
+			<p><strong>Year:</strong> {{ movie.year }}</p>
+			<p>
+				<strong>Genres:</strong>
+				{% for genre in movie.genres %} {{ genre.genre }}
+				<!-- prettier-ignore -->
+				{% if not forloop.last%}, {% endif %} {% endfor %}
+			</p>
+			<p>{{ movie.description }}</p>
+			{% else %}
+			<p class="error">Error. Try later.</p>
+			{% endif %}
+			<a href="{% url 'random_movie' %}" class="btn">Gimme more</a>
+		</div>
+	</body>
+</html>
